@@ -8,12 +8,16 @@
   let _aria2: typeof aria2
   if (typeof window === 'undefined') {
     _aria2 = require('../../lib/cjs/index.js')
-    _aria2.run()
+    _aria2.run({
+      args: ['--enable-rpc', '--rpc-listen-all=true', '--rpc-allow-origin-all', '--rpc-secret=mytoken']
+    })
   } else {
     _aria2 = (window as any).aria2
   }
   const Aria2Client = _aria2.Aria2Client
-  const client = new Aria2Client()
+  const client = new Aria2Client({
+    secret: 'mytoken'
+  })
   // client.on('message', (data) => console.log(data))
   client.once(Aria2Client.EVENT_OPEN, () => console.log('EVENT_OPEN'))
   client.on(Aria2Client.EVENT_ERROR, (err) => { console.log('EVENT_ERROR'); console.error(err) })

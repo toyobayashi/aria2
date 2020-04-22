@@ -34,6 +34,14 @@ export class ApiNamespaceSystem extends ApiNamespace {
   public async multicall (methods: Aria2Client.MulticallParam[] | RPCRequest[]): Promise<any> {
     if (Array.isArray(methods) && methods.length > 0) {
       if ('methodName' in methods[0]) {
+        const secret = this._client.getOption().secret
+        if (typeof secret === 'string' && secret !== '') {
+          for (let i = 0; i < methods.length; i++) {
+            if (typeof methods[i].params[0] !== 'string' || methods[i].params[0].indexOf('token:') !== 0) {
+              methods[i].params.unshift(`token:${secret}`)
+            }
+          }
+        }
         return await this.invoke<Array<[any]>>('multicall', methods)
       } else {
         return await new Promise<RPCResponse[]>((resolve, reject) => {

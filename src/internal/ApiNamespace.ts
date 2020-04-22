@@ -28,7 +28,7 @@ export class ApiNamespace extends EventEmitter {
     const args_ = [...args]
     const secret = this._client.getOption().secret
     if (typeof secret === 'string' && secret !== '') {
-      args_.unshift(secret)
+      args_.unshift(`token:${secret}`)
     }
     return await this.invoke<T>(name, ...args_)
   }
