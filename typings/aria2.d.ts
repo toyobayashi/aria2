@@ -875,6 +875,20 @@ export declare interface RPCResponse<T = any> {
 /**
  * @public
  */
+export declare function run(options?: RunOption): import('child_process').ChildProcess;
+
+/**
+ * @public
+ */
+export declare interface RunOption {
+    path?: string;
+    args?: string[];
+    stdio?: import('child_process').StdioOptions;
+}
+
+/**
+ * @public
+ */
 export declare interface Server {
     /** Original URI. */
     uri: string;

@@ -7,9 +7,8 @@
 (async function main (/* argc: number, argv: string[] */) {
   let _aria2: typeof aria2
   if (typeof window === 'undefined') {
-    const { spawn } = require('child_process')
-    spawn('aria2c', ['--enable-rpc', '--rpc-listen-all=true', '--rpc-allow-origin-all'])
     _aria2 = require('../../lib/cjs/index.js')
+    _aria2.run()
   } else {
     _aria2 = (window as any).aria2
   }
