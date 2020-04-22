@@ -9,10 +9,7 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/test/out/main.js",
-      "preLaunchTask": "npm: tsct",
-      "outFiles": [
-        "${workspaceFolder}/**/*.js"
-      ]
+      "preLaunchTask": "npm: tsct"
     }
   ]
 }

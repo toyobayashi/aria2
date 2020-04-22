@@ -112,8 +112,13 @@ export const tscn: gulp.TaskFunction = async function tscn (): Promise<void> {
   }
 }
 
+export const tsct: gulp.TaskFunction = async function tsct (): Promise<void> {
+  await runNpmBin('tsc', ['-p', './test/tsconfig.json'])
+}
+
 export const watch: gulp.TaskFunction = function watch (cb): void {
   gulp.watch('src/**/*.ts', { ignoreInitial: false }, lint)
+  runNpmBin('tsc', ['-w', '-p', 'tsconfig.json']).catch(err => console.log(err))
   runNpmBin('tsc', ['-w', '-p', 'tsconfig.esm.json']).catch(err => console.log(err))
   if (config.bundle.includes('webpack')) {
     _webpack(webpackConfig).watch({ aggregateTimeout: 200 }, (_err, stats) => console.log(stats.toString(webpackToStringOptions)))

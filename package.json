@@ -9,7 +9,7 @@
     "prepublish": "npm run build",
     "tsc": "gulp tsc",
     "tscn": "gulp tscn",
-    "tsct": "gulp tscn && tsc -p ./test/tsconfig.json",
+    "tsct": "gulp tsct",
     "dts": "gulp dts",
     "doc": "gulp doc",
     "docs": "gulp docs",
