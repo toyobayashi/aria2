@@ -77,13 +77,13 @@ export interface Status {
   files: File[]
 
   /** Struct which contains information retrieved from the .torrent (file). BitTorrent only. It contains following keys. */
-  bittorrent: {
+  bittorrent?: {
     /** List of lists of announce URIs. If the torrent contains `announce` and no `announce-list`, `announce` is converted to the `announce-list` format. */
-    announceList: string
+    announceList: string[][]
     /** The comment of the torrent. `comment.utf-8` is used if available. */
     comment: string
     /** The creation time of the torrent. The value is an integer since the epoch, measured in seconds. */
-    creationDate: string
+    creationDate: number
     /** File mode of the torrent. The value is either `single` or `multi`. */
     mode: string
     /** Struct which contains data from Info dictionary. It contains following keys. */
