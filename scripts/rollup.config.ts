@@ -28,7 +28,7 @@ export default function getRollupConfig (minify: boolean): { input: rollup.Input
         }),
         ...(minify ? [rollupTerser({
           ...(config.terserOptions ?? {}),
-          module: (config.terserOptions != null ? config.terserOptions.module : undefined) ?? (['es', 'esm', 'module']).includes(format)
+          module: config.terserOptions?.module ?? (['es', 'esm', 'module']).includes(format)
         })] : [])
       ]
     },

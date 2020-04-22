@@ -39,7 +39,10 @@ const config: Configuration = {
   webpackTarget: 'web',
   replaceESModule: false,
   terserOptions: {
-    ie8: false
+    ie8: false,
+    output: {
+      comments: false
+    }
   }
   // namespaceWrapper: true
   // externalApiDeclarationDir: 'api'
