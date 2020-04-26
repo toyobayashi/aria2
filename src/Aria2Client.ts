@@ -8,9 +8,9 @@ import { ApiNamespaceAria2 } from './internal/ApiNamespaceAria2'
 import { ApiNamespaceSystem } from './internal/ApiNamespaceSystem'
 import { RPCResponse, RPCRequest, RPCMultiRequest } from './interfaces/RPC'
 import { post } from './internal/http'
+import { ObjectId } from '@tybys/oid'
 
 const decamelize: typeof import('decamelize') = require('decamelize')
-const ObjectId: typeof import('@tybys/oid') = require('@tybys/oid')
 
 /**
  * @public

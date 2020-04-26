@@ -71,7 +71,7 @@ export const rollup: gulp.TaskFunction = async function rollup (): Promise<void>
     if (config.replaceESModule === true) {
       rollupConfig.forEach(conf => {
         let code = readFileSync(p(conf.output.file as string), 'utf8')
-        code = code.replace(/(.\s*)?Object\.defineProperty\s*\(\s*(.*?)\s*,\s*(['"])__esModule['"]\s*,\s*\{\s*value\s*:\s*(.*?)\s*\}\s*\)\s*;?/g, (_match, token, exp, quote, value) => {
+        code = code.replace(/(.\s*)?Object\.defineProperty\s*\(\s*(exports|\S{1})\s*,\s*(['"])__esModule['"]\s*,\s*\{\s*value\s*:\s*(.*?)\s*\}\s*\)\s*;?/g, (_match, token, exp, quote, value) => {
           const iifeTemplate = (content: string, replaceVar?: string): string => {
             if (replaceVar != null && replaceVar !== '') {
               return `(function(${replaceVar}){${content.replace(new RegExp(exp, 'g'), replaceVar)}})(${exp})`
@@ -166,4 +166,4 @@ export const doc: gulp.TaskFunction = async function doc (): Promise<void> {
 
 export const docs: gulp.TaskFunction = gulp.series(lint, tsc, dts, doc)
 
-export const build: gulp.TaskFunction = gulp.series(lint, tsc, dts, doc, bundle)
+export const build: gulp.TaskFunction = gulp.series(lint, tsc, tscn, dts, doc, bundle)

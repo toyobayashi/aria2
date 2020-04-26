@@ -2,6 +2,7 @@ import * as rollup from 'rollup'
 import p from './path'
 import config from './config'
 import { terser as rollupTerser } from 'rollup-plugin-terser'
+import { nativeRequireRollupPlugin } from '@tybys/native-require/plugins/rollup'
 const rollupTypescript: typeof import('@rollup/plugin-typescript').default = require('@rollup/plugin-typescript')
 const rollupJSON: typeof import('@rollup/plugin-json').default = require('@rollup/plugin-json')
 const rollupCommonJS: typeof import('@rollup/plugin-commonjs').default = require('@rollup/plugin-commonjs')
@@ -15,6 +16,7 @@ export default function getRollupConfig (minify: boolean): { input: rollup.Input
     input: {
       input: p(config.entry),
       plugins: [
+        nativeRequireRollupPlugin(),
         rollupNodeResolve(),
         rollupTypescript({
           tsconfig: p(config.tsconfig)

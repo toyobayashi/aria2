@@ -6,7 +6,8 @@
   "module": "./lib/esm/index.js",
   "typings": "./typings/aria2.d.ts",
   "scripts": {
-    "prepublish": "npm run build",
+    "test": "npm run tscn&&npm run tsct&&node ./test/out/main.js",
+    "prepare": "npm run build",
     "tsc": "gulp tsc",
     "tscn": "gulp tscn",
     "tsct": "gulp tsct",
@@ -64,7 +65,8 @@
     "webpack": "^4.43.0"
   },
   "dependencies": {
-    "@tybys/oid": "^1.0.8",
+    "@tybys/native-require": "^1.1.0",
+    "@tybys/oid": "^2.0.0",
     "camelcase": "^6.0.0",
     "decamelize": "^4.0.0",
     "ws": "^7.2.3"

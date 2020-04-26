@@ -1,5 +1,5 @@
 import { EventEmitter } from './EventEmitter'
-import { nodeRequire } from './require'
+import { nativeRequire } from '@tybys/native-require'
 
 /**
  * @public
@@ -19,7 +19,10 @@ class SimpleWebSocket extends EventEmitter {
   constructor (url: string, protocols?: string | string[]) {
     super()
     if (typeof window === 'undefined') {
-      const Ws: typeof import('ws') = nodeRequire('ws')
+      if (nativeRequire == null) {
+        throw new ReferenceError('require is not defined.')
+      }
+      const Ws: typeof import('ws') = nativeRequire('ws')
       this._socket = new Ws(url, protocols)
 
       this._socket.on('open', () => { this.emit('open') })

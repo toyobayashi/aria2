@@ -1,15 +1,19 @@
 import { Aria2ClientConstructOption } from '../Aria2Client'
-import { nodeRequire } from './require'
+import { nativeRequire } from '@tybys/native-require'
 
 export async function post <T = any> (options: Required<Aria2ClientConstructOption>, data: any): Promise<T> {
   return await new Promise<T>((resolve, reject) => {
     const url = `http${options.secure ? 's' : ''}://${options.host}:${options.port}${options.path}`
     if (typeof window === 'undefined') {
-      const http: typeof import('http') = nodeRequire('http')
-      const https: typeof import('http') = nodeRequire('https')
+      if (nativeRequire == null) {
+        reject(new ReferenceError('require is not defined.'))
+        return
+      }
+      const http: typeof import('http') = nativeRequire('http')
+      const https: typeof import('http') = nativeRequire('https')
       let got: typeof import('got') | undefined
       try {
-        got = nodeRequire('got')
+        got = nativeRequire('got')
       } catch {}
 
       if (got !== undefined) {
