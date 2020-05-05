@@ -71,14 +71,16 @@ export const rollup: gulp.TaskFunction = async function rollup (): Promise<void>
     if (config.replaceESModule === true) {
       rollupConfig.forEach(conf => {
         let code = readFileSync(p(conf.output.file as string), 'utf8')
-        code = code.replace(/(.\s*)?Object\.defineProperty\s*\(\s*(exports|\S{1})\s*,\s*(['"])__esModule['"]\s*,\s*\{\s*value\s*:\s*(.*?)\s*\}\s*\)\s*;?/g, (_match, token, exp, quote, value) => {
+        code = code.replace(/(.\s*)?Object\.defineProperty\s*\(\s*(exports|\S{1})\s*,\s*(['"])__esModule['"]\s*,\s*\{\s*value\s*:\s*(.*?)\s*\}\s*\)\s*;?/g, (_match, token, exp: string, quote, value) => {
           const iifeTemplate = (content: string, replaceVar?: string): string => {
             if (replaceVar != null && replaceVar !== '') {
               return `(function(${replaceVar}){${content.replace(new RegExp(exp, 'g'), replaceVar)}})(${exp})`
             }
             return `(function(){${content}})()`
           }
-          const content = (iife: boolean): string => `try{${iife ? 'return ' : ''}Object.defineProperty(${exp},${quote}__esModule${quote},{value:${value}})}catch(_){${iife ? 'return ' : ''}${exp}.__esModule=${value}${iife ? `,${exp}` : ''}}`
+          const content = (iife: boolean): string => {
+            return `try{${iife ? 'return ' : ''}Object.defineProperty(${exp},${quote}__esModule${quote},{value:${value}})}catch(_){${iife ? 'return ' : ''}${exp}.__esModule=${value}${iife ? (',' + exp) : ''}}`
+          }
           const _token = token ?? token.trim()
           // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (!_token) return content(false)
