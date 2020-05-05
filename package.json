@@ -2,9 +2,9 @@
   "name": "@tybys/aria2",
   "version": "0.0.0-dev",
   "description": "aria2 JSON RPC library for Node.js and browser",
-  "main": "./lib/cjs/index.js",
+  "typings": "./lib/esm/index.d.ts",
   "module": "./lib/esm/index.js",
-  "typings": "./typings/aria2.d.ts",
+  "main": "./lib/cjs/index.js",
   "scripts": {
     "test": "npm run tscn&&npm run tsct&&node ./test/out/main.js",
     "prepare": "npm run build",

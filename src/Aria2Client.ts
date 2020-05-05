@@ -2,7 +2,6 @@
 
 import { SimpleWebSocket } from './internal/SimpleWebSocket'
 import { EventEmitter } from './internal/EventEmitter'
-// import * as ObjectId from '@tybys/oid'
 import { Aria2Error } from './Aria2Error'
 import { ApiNamespaceAria2 } from './internal/ApiNamespaceAria2'
 import { ApiNamespaceSystem } from './internal/ApiNamespaceSystem'

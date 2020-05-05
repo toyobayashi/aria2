@@ -8,6 +8,6 @@
   },
   "include": [
     "./main.ts",
-    "../typings/aria2.d.ts"
+    "../dist/aria2.d.ts"
   ]
 }

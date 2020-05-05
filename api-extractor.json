@@ -11,7 +11,7 @@
   "bundledPackages": [],
 
   "compiler": {
-    // "tsconfigFilePath": "<projectFolder>/tsconfig.json",
+    "tsconfigFilePath": "<projectFolder>/tsconfig.esm.json"
 
     // "overrideTsconfig": {
     //   . . .
@@ -39,11 +39,11 @@
   "dtsRollup": {
     "enabled": true,
 
-    "untrimmedFilePath": "<projectFolder>/typings/<unscopedPackageName>.d.ts"
+    "untrimmedFilePath": "<projectFolder>/dist/<unscopedPackageName>.d.ts"
 
-    // "betaTrimmedFilePath": "<projectFolder>/typings/<unscopedPackageName>-beta.d.ts",
+    // "betaTrimmedFilePath": "<projectFolder>/dist/<unscopedPackageName>-beta.d.ts",
 
-    // "publicTrimmedFilePath": "<projectFolder>/typings/<unscopedPackageName>-public.d.ts",
+    // "publicTrimmedFilePath": "<projectFolder>/dist/<unscopedPackageName>-public.d.ts",
 
     // "omitTrimmingComments": true
   },

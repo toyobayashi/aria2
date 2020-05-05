@@ -155,7 +155,7 @@ export const dts: gulp.TaskFunction = async function dts (): Promise<void> {
   if (config.namespaceWrapper === true) {
     dtsHack.revertChange(info as dtsHack.DeclarationInfo)
   }
-  const dtsPath = p(`typings/${config.library}.d.ts`)
+  const dtsPath = p(`dist/${config.library}.d.ts`)
   const format = config.format ?? 'umd'
   dtsHack.resolveDeclarationFile(dtsPath, config.library, format)
 }

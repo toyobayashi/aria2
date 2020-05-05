@@ -27,7 +27,7 @@ function getWebpackConfig (minimize: boolean): Configuration {
       filename: '[name].js',
       library: config.library,
       libraryTarget: getWebpackLibraryTarget(format),
-      globalObject: 'typeof globalThis !== "undefined" ? globalThis : (typeof window !== "undefined" ? window : (typeof global !== "undefined" ? global : (typeof self !== "undefined" ? self : this)))'
+      globalObject: 'typeof globalThis !== "undefined" ? globalThis : (typeof window !== "undefined" ? window : (typeof self !== "undefined" ? self : this))'
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.json']
