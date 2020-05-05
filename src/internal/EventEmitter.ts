@@ -45,6 +45,9 @@ function assert (expr: unknown, msg = ''): asserts expr {
   }
 }
 
+/**
+ * @public
+ */
 export interface WrappedFunction extends Function {
   listener: Function
 }

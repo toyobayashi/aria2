@@ -1130,7 +1130,10 @@ export declare interface VersionInfo {
     version: string;
 }
 
-declare interface WrappedFunction extends Function {
+/**
+ * @public
+ */
+export declare interface WrappedFunction extends Function {
     listener: Function;
 }
 
