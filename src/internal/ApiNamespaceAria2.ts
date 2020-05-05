@@ -291,10 +291,25 @@ export class ApiNamespaceAria2 extends ApiNamespace {
     return await this.invokeWithSecret<GlobalOption>('getOption', gid)
   }
 
+  /**
+   * This method changes options of the download denoted by gid (string) dynamically.
+   * options is a struct.
+   * This method returns OK for success.
+   * @param gid - GID
+   * @param options - struct
+   * @returns string 'OK'
+   */
   public async changeOption (gid: string, options: Omit<Option, 'dry-run' | 'metalink-base-uri' | 'parameterized-uri' | 'pause' | 'piece-length' | 'rpc-save-upload-metadata'>): Promise<'OK'> {
     return await this.invokeWithSecret<'OK'>('changeOption', gid, options)
   }
 
+  /**
+   * This method changes global options dynamically.
+   * options is a struct.
+   * This method returns OK for success.
+   * @param options - struct
+   * @returns string 'OK'
+   */
   public async changeGlobalOption (options: {
     'bt-max-open-files'?: string
     'download-result'?: string
@@ -339,15 +354,54 @@ export class ApiNamespaceAria2 extends ApiNamespace {
     return await this.invokeWithSecret<Array<Pick<Status, T>>>('tellActive', keys)
   }
 
+  /**
+   * This method returns a list of waiting downloads, including paused ones.
+   * offset is an integer and specifies the offset from the download waiting at the front.
+   * num is an integer and specifies the max. number of downloads to be returned.
+   * For the keys parameter, please refer to the `aria2.tellStatus()` method.
+   * If offset is a positive integer, this method returns downloads in the range of [offset, offset + num).
+   * offset can be a negative integer.
+   * offset == -1 points last download in the waiting queue and
+   * offset == -2 points the download before the last download, and so on.
+   * Downloads in the response are in reversed order then.
+   * @param offset - an integer and specifies the offset from the download waiting at the front
+   * @param num - an integer and specifies the max number of downloads to be returned
+   * @param keys - response contains these keys only
+   * @returns array
+   */
   public async tellWaiting <T extends keyof Status>(offset: number, num: number, keys?: T[]): Promise<Array<Pick<Status, T>>> {
     return await this.invokeWithSecret<Array<Pick<Status, T>>>('tellWaiting', offset, num, keys)
   }
 
+  /**
+   * This method returns a list of stopped downloads.
+   * offset is an integer and specifies the offset from the least recently stopped download.
+   * num is an integer and specifies the max. number of downloads to be returned.
+   * For the keys parameter, please refer to the `aria2.tellStatus()` method.
+   * offset and num have the same semantics as described in the `aria2.tellWaiting()` method.
+   * The response is an array of the same structs as returned by the `aria2.tellStatus()` method.
+   * @param offset - an integer and specifies the offset from the least recently stopped download
+   * @param num - an integer and specifies the max number of downloads to be returned
+   * @param keys - response contains these keys only
+   * @returns array
+   */
   public async tellStopped <T extends keyof Status>(offset: number, num: number, keys?: T[]): Promise<Array<Pick<Status, T>>> {
     return await this.invokeWithSecret<Array<Pick<Status, T>>>('tellStopped', offset, num, keys)
   }
 
   /**
+   * This method changes the position of the download denoted by gid in the queue.
+   * pos is an integer.
+   * how is a string.
+   * If how is POS_SET, it moves the download to a position relative to the beginning of the queue.
+   * If how is POS_CUR, it moves the download to a position relative to the current position.
+   * If how is POS_END, it moves the download to a position relative to the end of the queue.
+   * If the destination position is less than 0 or beyond the end of the queue,
+   * it moves the download to the beginning or the end of the queue respectively.
+   * The response is an integer denoting the resulting position.
+   * @param gid - GID
+   * @param pos - position
+   * @param how - POS_SET | POS_CUR | POS_END
    * @returns an integer denoting the resulting position.
    */
   public async changePosition (gid: string, pos: number, how: Aria2Client.Position): Promise<number> {
@@ -355,10 +409,31 @@ export class ApiNamespaceAria2 extends ApiNamespace {
   }
 
   /**
-   * @returns a list which contains two integers. The first integer is the number of URIs deleted. The second integer is the number of URIs added.
+   * This method removes the URIs in delUris from and appends the URIs in addUris to download denoted by gid.
+   * delUris and addUris are lists of strings.
+   * A download can contain multiple files and URIs are attached to each file.
+   * fileIndex is used to select which file to remove/attach given URIs.
+   * fileIndex is 1-based.
+   * position is used to specify where URIs are inserted in the existing waiting URI list.
+   * position is 0-based.
+   * When position is omitted, URIs are appended to the back of the list.
+   * This method first executes the removal and then the addition.
+   * position is the position after URIs are removed, not the position when this method is called.
+   * When removing an URI, if the same URIs exist in download, only one of them is removed for each URI in delUris.
+   * In other words, if there are three URIs `http://example.org/aria2` and you want remove them all,
+   * you have to specify (at least) 3 `http://example.org/aria2` in delUris.
+   * This method returns a list which contains two integers.
+   * The first integer is the number of URIs deleted.
+   * The second integer is the number of URIs added.
+   * @param gid - GID
+   * @param fileIndex - 1-based, be used to select which file to remove/attach given URIs
+   * @param delUris - lists of strings
+   * @param addUris - lists of strings
+   * @param position - 0-based, be used to specify where URIs are inserted in the existing waiting URI list
+   * @returns a list which contains two integers.
    */
-  public async changeUri (gid: string, fileIndex: number, delUris: string[], addUris: string[], position?: number): Promise<number> {
-    return await this.invokeWithSecret<number>('changeUri', gid, fileIndex, delUris, addUris, position)
+  public async changeUri (gid: string, fileIndex: number, delUris: string[], addUris: string[], position?: number): Promise<[number, number]> {
+    return await this.invokeWithSecret<[number, number]>('changeUri', gid, fileIndex, delUris, addUris, position)
   }
 
   /**
@@ -372,6 +447,7 @@ export class ApiNamespaceAria2 extends ApiNamespace {
 
   /**
    * This method returns session information. The response is a struct
+   * @returns session information
    */
   public async getSessionInfo (): Promise<Session> {
     return await this.invokeWithSecret<Session>('getSessionInfo')
@@ -379,6 +455,7 @@ export class ApiNamespaceAria2 extends ApiNamespace {
 
   /**
    * This method returns global statistics such as the overall download and upload speeds
+   * @returns global statistics such as the overall download and upload speeds
    */
   public async getGlobalStat (): Promise<GlobalStat> {
     return await this.invokeWithSecret<GlobalStat>('getGlobalStat')
