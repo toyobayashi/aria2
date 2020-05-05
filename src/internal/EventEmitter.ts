@@ -57,10 +57,10 @@ export interface WrappedFunction extends Function {
  * @public
  */
 export default class EventEmitter {
-  public static defaultMaxListeners = 10;
-  public static errorMonitor = Symbol('events.errorMonitor');
-  private maxListeners: number | undefined;
-  private readonly _events: Map<string | symbol, Array<Function | WrappedFunction>>;
+  public static defaultMaxListeners = 10
+  public static errorMonitor = Symbol('events.errorMonitor')
+  private maxListeners: number | undefined
+  private readonly _events: Map<string | symbol, Array<Function | WrappedFunction>>
 
   public constructor () {
     this._events = new Map()
