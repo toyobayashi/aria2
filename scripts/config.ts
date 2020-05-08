@@ -34,7 +34,7 @@ const config: Configuration = {
   },
   bundle: ['rollup'],
   library: 'aria2',
-  tsconfig: 'tsconfig.production.json',
+  tsconfig: 'tsconfig.prod.json',
   format: 'umd',
   webpackTarget: 'web',
   replaceESModule: false,
