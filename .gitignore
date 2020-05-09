@@ -5,5 +5,4 @@ tsdoc-metadata.json
 package-lock.json
 /temp
 /dist
-/docs
 /test/out
