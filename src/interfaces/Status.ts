@@ -1,4 +1,4 @@
-import { File } from './File'
+import { FileInfo } from './FileInfo'
 
 /**
  * @public
@@ -74,7 +74,7 @@ export interface Status {
   /** Directory to save files. */
   dir: string
   /** Returns the list of files. The elements of this list are the same structs used in `aria2.getFiles()` method. */
-  files: File[]
+  files: FileInfo[]
 
   /** Struct which contains information retrieved from the .torrent (file). BitTorrent only. It contains following keys. */
   bittorrent?: {

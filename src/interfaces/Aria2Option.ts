@@ -1,7 +1,7 @@
 /**
  * @public
  */
-export interface Option {
+export interface Aria2Option {
   'all-proxy'?: string
   'all-proxy-passwd'?: string
   'all-proxy-user'?: string

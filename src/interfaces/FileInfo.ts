@@ -3,7 +3,7 @@ import { Uri } from './Uri'
 /**
  * @public
  */
-export interface File {
+export interface FileInfo {
   /** Index of the file, starting at 1, in the same order as files appear in the multi-file torrent. */
   index: string
   /** File path. */

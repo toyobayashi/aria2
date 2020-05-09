@@ -1,8 +1,8 @@
 import { ApiNamespace } from './ApiNamespace'
 import { Aria2Client } from '../Aria2Client'
-import { GlobalOption, Option, VersionInfo, Status } from '../types'
+import { GlobalOption, Aria2Option, VersionInfo, Status } from '../types'
 import { Uri } from '../interfaces/Uri'
-import { File } from '../interfaces/File'
+import { FileInfo } from '../interfaces/FileInfo'
 import { Peer } from '../interfaces/Peer'
 import { ServerInfo } from '../interfaces/Server'
 import { Session } from '../interfaces/Session'
@@ -78,7 +78,7 @@ export class ApiNamespaceAria2 extends ApiNamespace {
    * @param position - an integer starting from 0
    * @returns the GID of the newly registered download
    */
-  public async addUri (uris: string[], options?: Option, position?: number): Promise<string> {
+  public async addUri (uris: string[], options?: Aria2Option, position?: number): Promise<string> {
     return await this.invokeWithSecret<string>('addUri', uris, options, position)
   }
 
@@ -108,7 +108,7 @@ export class ApiNamespaceAria2 extends ApiNamespace {
    * @param position - an integer starting from 0
    * @returns the GID of the newly registered download
    */
-  public async addTorrent (torrent: string, uris?: string[], options?: Option, position?: number): Promise<string> {
+  public async addTorrent (torrent: string, uris?: string[], options?: Aria2Option, position?: number): Promise<string> {
     return await this.invokeWithSecret<string>('addTorrent', torrent, uris, options, position)
   }
 
@@ -132,7 +132,7 @@ export class ApiNamespaceAria2 extends ApiNamespace {
    * @param position - an integer starting from 0
    * @returns the GID of the newly registered download
    */
-  public async addMetalink (metalink: string, options?: Option, position?: number): Promise<string[]> {
+  public async addMetalink (metalink: string, options?: Aria2Option, position?: number): Promise<string[]> {
     return await this.invokeWithSecret<string[]>('addMetalink', metalink, options, position)
   }
 
@@ -240,8 +240,8 @@ export class ApiNamespaceAria2 extends ApiNamespace {
    * @param gid - GID
    * @returns an array of structs
    */
-  public async getFiles (gid: string): Promise<File[]> {
-    return await this.invokeWithSecret<File[]>('getFiles', gid)
+  public async getFiles (gid: string): Promise<FileInfo[]> {
+    return await this.invokeWithSecret<FileInfo[]>('getFiles', gid)
   }
 
   /**
@@ -299,7 +299,7 @@ export class ApiNamespaceAria2 extends ApiNamespace {
    * @param options - struct
    * @returns string 'OK'
    */
-  public async changeOption (gid: string, options: Omit<Option, 'dry-run' | 'metalink-base-uri' | 'parameterized-uri' | 'pause' | 'piece-length' | 'rpc-save-upload-metadata'>): Promise<'OK'> {
+  public async changeOption (gid: string, options: Omit<Aria2Option, 'dry-run' | 'metalink-base-uri' | 'parameterized-uri' | 'pause' | 'piece-length' | 'rpc-save-upload-metadata'>): Promise<'OK'> {
     return await this.invokeWithSecret<'OK'>('changeOption', gid, options)
   }
 
@@ -324,7 +324,7 @@ export class ApiNamespaceAria2 extends ApiNamespace {
     'save-cookies'?: string
     'save-session'?: string
     'server-stat-of'?: string
-  } & Omit<Option, 'checksum' | 'index-out' | 'out' | 'pause' | 'select-file'>): Promise<'OK'> {
+  } & Omit<Aria2Option, 'checksum' | 'index-out' | 'out' | 'pause' | 'select-file'>): Promise<'OK'> {
     return await this.invokeWithSecret<'OK'>('changeGlobalOption', options)
   }
 
