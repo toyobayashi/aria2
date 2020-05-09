@@ -1,11 +1,7 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "./node_modules/@tybys/tsgo/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "outDir": "./lib/cjs",
-    "module": "commonjs",
-    "target": "es2019",
-    "declaration": true,
-    "sourceMap": true
+    "outDir": "./lib/cjs"
   },
   "include": [
     "./src/**/*"
