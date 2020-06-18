@@ -34,13 +34,13 @@ function which (cmd: string): string {
 export interface RunOption {
   path?: string
   args?: string[]
-  stdio?: import('child_process').StdioOptions
+  stdio?: 'pipe' | 'ignore' | 'inherit' | Array<('pipe' | 'ipc' | 'ignore' | 'inherit' | number | null | undefined)>
 }
 
 /**
  * @public
  */
-export function run (options?: RunOption): import('child_process').ChildProcess {
+export function run (options?: RunOption): any {
   if (typeof global === 'undefined' && typeof window !== 'undefined') throw new Error('Can not call run() in browser.')
   if (nativeRequire == null) throw new ReferenceError('require is not defined.')
   const cmd = options?.path ?? which('aria2c')

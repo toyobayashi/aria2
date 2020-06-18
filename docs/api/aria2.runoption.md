@@ -17,5 +17,5 @@ export interface RunOption
 |  --- | --- | --- |
 |  [args](./aria2.runoption.args.md) | string\[\] |  |
 |  [path](./aria2.runoption.path.md) | string |  |
-|  [stdio](./aria2.runoption.stdio.md) | import('child\_process').StdioOptions |  |
+|  [stdio](./aria2.runoption.stdio.md) | 'pipe' \| 'ignore' \| 'inherit' \| Array&lt;('pipe' \| 'ipc' \| 'ignore' \| 'inherit' \| number \| null \| undefined)&gt; |  |
 

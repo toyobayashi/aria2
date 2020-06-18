@@ -8,7 +8,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare function run(options?: RunOption): import('child_process').ChildProcess;
+export declare function run(options?: RunOption): any;
 ```
 
 ## Parameters
@@ -19,5 +19,5 @@ export declare function run(options?: RunOption): import('child_process').ChildP
 
 <b>Returns:</b>
 
-import('child\_process').ChildProcess
+any
 

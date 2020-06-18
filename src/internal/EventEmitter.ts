@@ -251,7 +251,8 @@ export default class EventEmitter {
         rawListener: Function
         context: EventEmitter
       },
-      ...args: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...args: any[]
     ): void {
       this.context.removeListener(this.eventName, this.rawListener)
       this.listener.apply(this.context, args)
@@ -304,13 +305,13 @@ export default class EventEmitter {
       return this
     }
 
-    if (eventName !== undefined && this._events.has(eventName)) {
-      const listeners = (this._events.get(eventName) as Array<
-      Function | WrappedFunction
-      >).slice() // Create a copy; We use it AFTER it's deleted.
-      this._events.delete(eventName)
-      for (const listener of listeners) {
-        this.emit('removeListener', eventName, listener)
+    if (eventName != null && eventName !== '') {
+      if (this._events.has(eventName)) {
+        const listeners = (this._events.get(eventName) as Array<Function | WrappedFunction>).slice() // Create a copy; We use it AFTER it's deleted.
+        this._events.delete(eventName)
+        for (const listener of listeners) {
+          this.emit('removeListener', eventName, listener)
+        }
       }
     } else {
       const eventList: [string | symbol] = this.eventNames()
@@ -433,12 +434,12 @@ function createIterResult (value: any, done: boolean): IteratorResult<any> {
 
 interface AsyncInterable {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  next(): Promise<IteratorResult<any, any>>
+  next: () => Promise<IteratorResult<any, any>>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return(): Promise<IteratorResult<any, any>>
-  throw(err: Error): void
+  return: () => Promise<IteratorResult<any, any>>
+  throw: (err: Error) => void
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [Symbol.asyncIterator](): any
+  [Symbol.asyncIterator]: () => any
 }
 
 /**
@@ -455,7 +456,6 @@ export function on (
   const unconsumedEventValues: any[] = []
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const unconsumedPromises: any[] = []
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let error: Error | null = null
   let finished = false
 

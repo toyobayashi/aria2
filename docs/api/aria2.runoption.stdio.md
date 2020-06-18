@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-stdio?: import('child_process').StdioOptions;
+stdio?: 'pipe' | 'ignore' | 'inherit' | Array<('pipe' | 'ipc' | 'ignore' | 'inherit' | number | null | undefined)>;
 ```
