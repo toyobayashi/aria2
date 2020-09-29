@@ -10,6 +10,7 @@
 ```typescript
 export declare class Aria2Error extends Error 
 ```
+<b>Extends:</b> Error
 
 ## Constructors
 

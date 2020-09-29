@@ -9,6 +9,7 @@
 ```typescript
 class RequestParam<T = any[]> implements RPCRequest<T> 
 ```
+<b>Implements:</b> [RPCRequest](./aria2.rpcrequest.md)<!-- -->&lt;T&gt;
 
 ## Constructors
 

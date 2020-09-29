@@ -10,6 +10,7 @@
 ```typescript
 declare class SimpleWebSocket extends EventEmitter 
 ```
+<b>Extends:</b> EventEmitter
 
 ## Constructors
 

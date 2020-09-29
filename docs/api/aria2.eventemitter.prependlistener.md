@@ -17,7 +17,7 @@ prependListener(eventName: string | symbol, listener: Function | WrappedFunction
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  eventName | string \| symbol |  |
-|  listener | Function \| [WrappedFunction](./aria2.wrappedfunction.md) |  |
+|  listener | Function \| WrappedFunction |  |
 
 <b>Returns:</b>
 

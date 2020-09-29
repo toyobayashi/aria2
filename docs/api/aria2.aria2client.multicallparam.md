@@ -9,6 +9,7 @@
 ```typescript
 class MulticallParam implements RPCMultiRequest 
 ```
+<b>Implements:</b> [RPCMultiRequest](./aria2.rpcmultirequest.md)
 
 ## Constructors
 

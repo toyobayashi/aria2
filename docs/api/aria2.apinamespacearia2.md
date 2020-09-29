@@ -10,6 +10,7 @@
 ```typescript
 export declare class ApiNamespaceAria2 extends ApiNamespace 
 ```
+<b>Extends:</b> [ApiNamespace](./aria2.apinamespace.md)
 
 ## Constructors
 

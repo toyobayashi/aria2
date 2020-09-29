@@ -17,7 +17,7 @@ on(eventName: string | symbol, listener: Function | WrappedFunction): this;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  eventName | string \| symbol |  |
-|  listener | Function \| [WrappedFunction](./aria2.wrappedfunction.md) |  |
+|  listener | Function \| WrappedFunction |  |
 
 <b>Returns:</b>
 

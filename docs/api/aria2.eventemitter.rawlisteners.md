@@ -20,5 +20,5 @@ rawListeners(eventName: string | symbol): Array<Function | WrappedFunction>;
 
 <b>Returns:</b>
 
-Array&lt;Function \| [WrappedFunction](./aria2.wrappedfunction.md)<!-- -->&gt;
+Array&lt;Function \| WrappedFunction&gt;
 

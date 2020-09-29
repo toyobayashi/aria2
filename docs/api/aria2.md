@@ -45,7 +45,6 @@ aria2 JSON RPC library for Node.js and browser
 |  [Status](./aria2.status.md) |  |
 |  [Uri](./aria2.uri.md) |  |
 |  [VersionInfo](./aria2.versioninfo.md) |  |
-|  [WrappedFunction](./aria2.wrappedfunction.md) |  |
 
 ## Namespaces
 

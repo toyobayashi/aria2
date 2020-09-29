@@ -10,6 +10,7 @@
 ```typescript
 export declare class ApiNamespace extends EventEmitter 
 ```
+<b>Extends:</b> EventEmitter
 
 ## Constructors
 
