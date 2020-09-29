@@ -53,10 +53,8 @@
     "webpack": "^4.44.2"
   },
   "dependencies": {
-    "@tybys/native-require": "^2.0.0",
+    "@tybys/native-require": "^2.0.1",
     "@tybys/oid": "^3.0.0",
-    "camelcase": "^6.0.0",
-    "decamelize": "^4.0.0",
     "tslib": "2.0.1",
     "ws": "^7.3.0"
   },

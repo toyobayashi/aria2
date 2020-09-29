@@ -15,7 +15,6 @@ aria2 JSON RPC library for Node.js and browser
 |  [ApiNamespaceSystem](./aria2.apinamespacesystem.md) |  |
 |  [Aria2Client](./aria2.aria2client.md) |  |
 |  [Aria2Error](./aria2.aria2error.md) |  |
-|  [EventEmitter](./aria2.eventemitter.md) | See also https://nodejs.org/api/events.html |
 |  [SimpleWebSocket](./aria2.simplewebsocket.md) |  |
 
 ## Functions
@@ -51,6 +50,12 @@ aria2 JSON RPC library for Node.js and browser
 |  Namespace | Description |
 |  --- | --- |
 |  [Aria2Client](./aria2.aria2client.md) |  |
+
+## Variables
+
+|  Variable | Description |
+|  --- | --- |
+|  [EventEmitter](./aria2.eventemitter.md) | See also https://nodejs.org/api/events.html |
 
 ## Type Aliases
 

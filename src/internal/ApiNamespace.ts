@@ -1,8 +1,6 @@
 import { EventEmitter } from './EventEmitter'
 import { Aria2Client } from '../Aria2Client'
-// import * as camelcase from 'camelcase'
-
-const camelcase: typeof import('camelcase') = require('camelcase')
+import { camelcase } from './camelcase'
 
 /**
  * @public

@@ -8,8 +8,7 @@ import { ApiNamespaceSystem } from './internal/ApiNamespaceSystem'
 import { RPCResponse, RPCRequest, RPCMultiRequest } from './interfaces/RPC'
 import { post } from './internal/http'
 import { ObjectId } from '@tybys/oid'
-
-const decamelize: typeof import('decamelize') = require('decamelize')
+import { decamelize } from './internal/decamelize'
 
 /**
  * @public

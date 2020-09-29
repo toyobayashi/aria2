@@ -1,3 +1,5 @@
+import { _require } from './require'
+
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 // Copyright (c) 2019 Denolibs authors. All rights reserved. MIT license.
 // Copyright Joyent, Inc. and other Node contributors.
@@ -45,18 +47,11 @@ function assert (expr: unknown, msg = ''): asserts expr {
   }
 }
 
-/**
- * @public
- */
-export interface WrappedFunction extends Function {
+interface WrappedFunction extends Function {
   listener: Function
 }
 
-/**
- * See also https://nodejs.org/api/events.html
- * @public
- */
-export default class EventEmitter {
+class EventEmitter {
   public static defaultMaxListeners = 10
   public static errorMonitor = Symbol('events.errorMonitor')
   private maxListeners: number | undefined
@@ -373,180 +368,27 @@ export default class EventEmitter {
   }
 }
 
-export { EventEmitter }
-
 /**
- * Creates a Promise that is fulfilled when the EventEmitter emits the given
- * event or that is rejected when the EventEmitter emits 'error'. The Promise
- * will resolve with an array of all the arguments emitted to the given event.
+ * See also https://nodejs.org/api/events.html
+ * @public
  */
-export async function once (
-  emitter: EventEmitter | EventTarget,
-  name: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Promise<any[]> {
-  return await new Promise((resolve, reject) => {
-    if (emitter instanceof EventTarget) {
-      // EventTarget does not have `error` event semantics like Node
-      // EventEmitters, we do not listen to `error` events here.
-      emitter.addEventListener(
-        name,
-        (...args) => {
-          resolve(args)
-        },
-        { once: true, passive: false, capture: false }
-      )
-    } else if (emitter instanceof EventEmitter) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const eventListener = (...args: any[]): void => {
-        if (errorListener !== undefined) {
-          emitter.removeListener('error', errorListener)
-        }
-        resolve(args)
-      }
-      let errorListener: Function
+let _EventEmitter: typeof NodeJS.EventEmitter
 
-      // Adding an error listener is not optional because
-      // if an error is thrown on an event emitter we cannot
-      // guarantee that the actual event we are waiting will
-      // be fired. The result could be a silent way to create
-      // memory or file descriptor leaks, which is something
-      // we should avoid.
-      if (name !== 'error') {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        errorListener = (err: any): void => {
-          emitter.removeListener(name, eventListener)
-          reject(err)
-        }
+let events: any = {}
 
-        emitter.once('error', errorListener)
-      }
-
-      emitter.once(name, eventListener)
-    }
-  })
+if (_require != null) {
+  try {
+    events = _require('events')
+    _EventEmitter = events.EventEmitter || EventEmitter
+  } catch (_) {
+    _EventEmitter = EventEmitter
+  }
+} else {
+  _EventEmitter = EventEmitter
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function createIterResult (value: any, done: boolean): IteratorResult<any> {
-  return { value, done }
-}
+export default _EventEmitter
 
-interface AsyncInterable {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  next: () => Promise<IteratorResult<any, any>>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return: () => Promise<IteratorResult<any, any>>
-  throw: (err: Error) => void
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [Symbol.asyncIterator]: () => any
-}
-
-/**
- * Returns an AsyncIterator that iterates eventName events. It will throw if
- * the EventEmitter emits 'error'. It removes all listeners when exiting the
- * loop. The value returned by each iteration is an array composed of the
- * emitted event arguments.
- */
-export function on (
-  emitter: EventEmitter,
-  event: string | symbol
-): AsyncInterable {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const unconsumedEventValues: any[] = []
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const unconsumedPromises: any[] = []
-  let error: Error | null = null
-  let finished = false
-
-  const iterator = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async next (): Promise<IteratorResult<any>> {
-      // First, we consume all unread events
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const value: any = unconsumedEventValues.shift()
-      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-      if (value) {
-        return await Promise.resolve(createIterResult(value, false))
-      }
-
-      // Then we error, if an error happened
-      // This happens one time if at all, because after 'error'
-      // we stop listening
-      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-      if (error) {
-        const p: Promise<never> = Promise.reject(error)
-        // Only the first element errors
-        error = null
-        return await p
-      }
-
-      // If the iterator is finished, resolve to done
-      if (finished) {
-        return await Promise.resolve(createIterResult(undefined, true))
-      }
-
-      // Wait until an event happens
-      return await new Promise(function (resolve, reject) {
-        unconsumedPromises.push({ resolve, reject })
-      })
-    },
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async return (): Promise<IteratorResult<any>> {
-      emitter.removeListener(event, eventHandler)
-      emitter.removeListener('error', errorHandler)
-      finished = true
-
-      for (const promise of unconsumedPromises) {
-        promise.resolve(createIterResult(undefined, true))
-      }
-
-      return await Promise.resolve(createIterResult(undefined, true))
-    },
-
-    throw (err: Error): void {
-      error = err
-      emitter.removeListener(event, eventHandler)
-      emitter.removeListener('error', errorHandler)
-    },
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [Symbol.asyncIterator] (): any {
-      return this
-    }
-  }
-
-  emitter.on(event, eventHandler)
-  emitter.on('error', errorHandler)
-
-  return iterator
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function eventHandler (...args: any[]): void {
-    const promise = unconsumedPromises.shift()
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (promise) {
-      promise.resolve(createIterResult(args, false))
-    } else {
-      unconsumedEventValues.push(args)
-    }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function errorHandler (err: any): void {
-    finished = true
-
-    const toError = unconsumedPromises.shift()
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (toError) {
-      toError.reject(err)
-    } else {
-      // The next time we call next()
-      error = err
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    iterator.return()
-  }
+export {
+  _EventEmitter as EventEmitter
 }
