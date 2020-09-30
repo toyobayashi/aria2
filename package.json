@@ -36,7 +36,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@tybys/tsgo": "^0.2.3",
+    "@tybys/tsgo": "^0.2.4",
     "@types/got": "^9.6.10",
     "@types/node": "^12.12.36",
     "@types/ws": "^7.2.4",
