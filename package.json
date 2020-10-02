@@ -36,7 +36,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@tybys/tsgo": "^0.2.4",
+    "@tybys/tsgo": "^0.2.5",
     "@types/got": "^9.6.10",
     "@types/node": "^12.12.36",
     "@types/ws": "^7.2.4",
@@ -50,13 +50,13 @@
     "eslint-plugin-standard": "^4.0.1",
     "rollup": "^2.28.2",
     "typescript": "3.9.7",
-    "webpack": "^4.44.2"
+    "webpack": "^5.0.0-rc.3"
   },
   "dependencies": {
-    "@tybys/native-require": "^2.0.1",
+    "@tybys/native-require": "^2.0.2",
     "@tybys/oid": "^3.0.0",
     "tslib": "2.0.1",
-    "ws": "^7.3.0"
+    "ws": "^7.3.1"
   },
   "optionalDependencies": {
     "got": "^9.6.0"
